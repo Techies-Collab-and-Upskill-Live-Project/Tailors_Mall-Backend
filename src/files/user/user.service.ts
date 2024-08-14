@@ -15,7 +15,7 @@ export default class UserService {
   // User Auth Service
   static async signup(userPayload: IUser): Promise<IResponse> {
     userPayload.email = userPayload.email.toLowerCase()
-    const { email, phoneNumber } = userPayload
+    const { email, phoneNumber, fullName } = userPayload
 
     const validateUser = await UserRepository.validateUser({
       $or: [{ email }, { phoneNumber }],
@@ -31,12 +31,15 @@ export default class UserService {
     if (!signUp)
       return { success: false, msg: generalMessages.UNEXPECTED_FAILURE }
 
+    const token = tokenHandler({ fullName, email, isAdmin: false, userType: "user"  })
+
     //send mail to user including their unique sign up link
     const substitutional_parameters = {
       name: userPayload.fullName,
       email: userPayload.email,
       password: userPayload.password
     }
+
     await sendMailNotification(
       email,
       "Registration",
@@ -47,7 +50,7 @@ export default class UserService {
     return {
       success: true,
       msg: userMessages.SIGN_UP_SUCCESS,
-      data: { userId: signUp._id },
+      data: { userId: signUp._id, ...token },
     }
   }
 
@@ -72,7 +75,7 @@ export default class UserService {
 
     return {
       success: true,
-      msg: authMessages.ADMIN_FOUND,
+      msg: userMessages.LOG_IN_SUCCESS,
       data: {
         ...token,
       },

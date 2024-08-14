@@ -12,7 +12,7 @@ export interface IUser extends Partial<IUserExt> {
   bio?: string
   website?: string
   phoneNumber: string
-  category: "admin" | "partner"
+  category: "user" | "designer"
   isDeleted: boolean
   createdAt?: Date
   updatedAt?: Date
