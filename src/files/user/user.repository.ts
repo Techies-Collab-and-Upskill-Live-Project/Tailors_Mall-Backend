@@ -1,7 +1,6 @@
 import { IUser, IUserLogin, IUserSearch } from "./user.interface"
 import User from "./user.model"
 import pagination, { IPagination } from "../../constants"
-import mongoose from "mongoose"
 
 const { LIMIT, SKIP, SORT } = pagination
 

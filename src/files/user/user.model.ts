@@ -21,8 +21,8 @@ const UserSchema = new Schema<IUser>(
     },
     category: {
       type: String,
-      enum: ["user", "tailor"],
-      required: true,
+      enum: ["user", "designer"],
+      default: "user",
     },
     bio: {
       type: String,

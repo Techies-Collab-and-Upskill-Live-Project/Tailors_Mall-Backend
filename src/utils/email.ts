@@ -16,7 +16,7 @@ export const sendMailNotification = (
   is_save?: any
 ) => {
   const source = fs.readFileSync(
-    path.join(__dirname, "..", "..", "templates", `${Template_Name}.hbs`),
+    path.join(__dirname, "..", "templates", `${Template_Name}.hbs`),
     "utf-8"
   )
 
@@ -28,6 +28,9 @@ export const sendMailNotification = (
       auth: {
         user: process.env.GMAIL_APP,
         pass: process.env.GMAIL_APP_KEY,
+      },
+      tls: {
+        rejectUnauthorized: false  // Disable certificate validation
       }
     })
 

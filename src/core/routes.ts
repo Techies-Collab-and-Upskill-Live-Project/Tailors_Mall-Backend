@@ -7,7 +7,7 @@ import UserRoute from "../files/user/user.route";
 export const routes = (app: Application) => {
   const base = "/api/v1"
 
-  app.use(`${base}/admin`, AdminRouter)
+  app.use(`${base}/admin`, AdminRouter) 
   app.use(`${base}/auth`, AuthRouter)
-  app.use(`${base}/users`, UserRoute)
+  app.use(`${base}/user`, UserRoute)
 }

@@ -1,5 +1,6 @@
 export const userMessages = {
   SIGN_UP_SUCCESS: "Successfully signed up",
+  LOG_IN_SUCCESS: "Successfully logged in",
   USER_EXISTS: "User with this information exists",
   USER_NOT_FOUND: "User with this information not found",
   REGISTRATION_COMPLETE: "User registration complete",
