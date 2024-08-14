@@ -12,7 +12,7 @@ import { authMessages } from "../auth/auth.messages"
 const url = process.env.BASE_URL || "https://dsep.skillupafrica.com.ng"
 
 export default class UserService {
-  // User Auth Service
+  // User Authentication Service
   static async signup(userPayload: IUser): Promise<IResponse> {
     userPayload.email = userPayload.email.toLowerCase()
     const { email, phoneNumber, fullName } = userPayload
@@ -31,7 +31,7 @@ export default class UserService {
     if (!signUp)
       return { success: false, msg: generalMessages.UNEXPECTED_FAILURE }
 
-    const token = tokenHandler({ fullName, email, isAdmin: false, userType: "user"  })
+    const token = tokenHandler({ _id: signUp._id, email, isAdmin: false, userType: "user"  })
 
     //send mail to user including their unique sign up link
     const substitutional_parameters = {
@@ -174,7 +174,7 @@ export default class UserService {
       { sort: "asc", limit: 0, skip: 0 },
     )
 
-    if (!user) return { success: false, msg: userMessages.NOT_FOUND }
+    if (!user || user.length < 1) return { success: false, msg: userMessages.NOT_FOUND }
 
     return { success: true, msg: userMessages.FETCH, data: user }
   }

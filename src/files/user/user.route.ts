@@ -23,12 +23,12 @@ const {
   updateProfile,
   deleteUser,
   getUserDetails,
+  resetPassword,
 } = userController
 
 const {
   sendOTP,
   verifyOTP,
-  resetPassword
 } = authController
 
 //routes
