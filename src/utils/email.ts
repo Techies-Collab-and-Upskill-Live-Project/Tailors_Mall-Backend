@@ -43,6 +43,7 @@ export const sendMailNotification = (
 
     return smtpProtocol.sendMail(mailoption, function (err, response) {
       if (err) {
+        console.log('err', err)
         return reject(err)
       }
       console.log("Message Sent" + response)

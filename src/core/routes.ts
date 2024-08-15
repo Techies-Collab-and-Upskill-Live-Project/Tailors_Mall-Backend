@@ -1,7 +1,7 @@
 import { Application } from "express";
 import AdminRouter from "../files/admin/admin.route";
 import AuthRouter from "../files/auth/auth.route";
-import UserRoute from "../files/user/user.route";
+import ClientRoute from "../files/user/clients/client.route";
 
 // Routes goes here
 export const routes = (app: Application) => {
@@ -9,5 +9,5 @@ export const routes = (app: Application) => {
 
   app.use(`${base}/admin`, AdminRouter) 
   app.use(`${base}/auth`, AuthRouter)
-  app.use(`${base}/user`, UserRoute)
+  app.use(`${base}/client`, ClientRoute)
 }
