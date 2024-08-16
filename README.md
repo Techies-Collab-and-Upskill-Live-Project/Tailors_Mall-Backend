@@ -2,6 +2,15 @@
 
 Tailors Mall is a platform built to connect tailors and clients, providing powerful tools for designers to showcase their portfolios, clients to search and filter designers, and both to engage in meaningful interactions.
 
+<p align="center">
+  <img src="https://img.shields.io/badge/TypeScript-007ACC?style=for-the-badge&logo=typescript&logoColor=white" alt="TypeScript" height="50"/>
+  <img src="https://img.shields.io/badge/Express.js-404D59?style=for-the-badge" alt="Express.js" height="50"/>
+  <img src="https://img.shields.io/badge/MongoDB-4EA94B?style=for-the-badge&logo=mongodb&logoColor=white" alt="MongoDB" height="50"/>
+  <img src="https://img.shields.io/badge/Redis-DC382D?style=for-the-badge&logo=redis&logoColor=white" alt="Redis" height="50"/>
+  <img src="https://img.shields.io/badge/Node.js-339933?style=for-the-badge&logo=nodedotjs&logoColor=white" alt="Node.js" height="50"/>
+  <img src="https://img.shields.io/badge/Cloudinary-FBBF24?style=for-the-badge&logo=cloudinary&logoColor=white" alt="Cloudinary" height="50"/>
+</p>
+
 ## Table of Contents
 - [Features](#features)
 - [Technologies Used](#technologies-used)
