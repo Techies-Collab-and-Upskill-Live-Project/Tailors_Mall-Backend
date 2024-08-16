@@ -92,8 +92,22 @@ Tailors_Mall-Backend/
     ```
 
 4. Create a `.env` file based on the `.env.example` and update the environment variables.
-
-5. Start the development server:
+```
+PORT=5500
+MONGO_URL=mongodb+srv://<username>:<password>@<cluster-url>/TailorsMall?retryWrites=true&w=majority
+TOKEN_EXPIRE_IN=1d
+COMPANY_EMAIL=youremail@example.com
+BASE_URL=https://your-base-url.com
+CLOUDINARY_NAME=your-cloudinary-name
+CLOUDINARY_API_KEY=your-cloudinary-api-key
+CLOUDINARY_API_SECRET=your-cloudinary-api-secret
+GMAIL_APP_KEY=your-gmail-app-key
+GMAIL_APP=youremail@example.com
+REDIS_URL=your-redis-url
+SENDGRID_API_KEY=your-sendgrid-api-key
+SECRET_KEY=your-secret-key
+```
+6. Start the development server:
 
     ```bash
     npm run dev
