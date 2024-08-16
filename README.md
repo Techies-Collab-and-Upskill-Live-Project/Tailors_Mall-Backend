@@ -53,6 +53,7 @@ Tailors_Mall-Backend/
 │   ├── validations/
 │   └── index.ts
 └── tsconfig.json
+```
  
 ## Project Structure
 - **constants/**: Contains constants like status codes.
