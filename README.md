@@ -135,6 +135,14 @@ Contributions are welcome! Follow the steps below to contribute:
 ## License
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
+## Contributors
+
+Thanks to the following people who have contributed to this project:
+
+- [@username](https://github.com/ZoDD-Script)
+- [@username](https://github.com/steve2700)
+
+
 ## Contact
 Remember to keep this README updated as the project evolves. If you have any questions or need help, don't hesitate to reach out to me or post on the Devs WhatsApp group. Let's build an amazing project together! 😄 🚀 🔥
 
