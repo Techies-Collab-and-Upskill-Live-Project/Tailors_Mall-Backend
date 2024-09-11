@@ -5,6 +5,8 @@ import { sendMailNotification } from '../../../utils/email';
 import { IUser, IUserResetPasswordPayload } from './general.interface';
 import Repository from './general.repository';
 import { userMessages } from './general.messages';
+import Client from '../clients/client.model';
+import Designer from '../designer/designer.model';
 
 export default class AuthService {
   static async createUser<T extends Model<IUser>>(
@@ -16,7 +18,7 @@ export default class AuthService {
     const validateUser = await Repository.validateUser(model, { email: payload.email });
 
     if (validateUser) {
-      return { success: true, msg: userMessages.USER_EXISTS };
+      return { success: false, msg: userMessages.USER_EXISTS };
     }
 
     let { password } = payload;
@@ -255,6 +257,71 @@ export default class AuthService {
       success: true,
       msg: userMessages.FETCH_USERS,
       data: users,
+    }
+  }
+
+  static async searchCollections(query: any) {
+    const { error, params, limit, skip, sort } = queryConstructor(query, "_id", "Users");
+  
+    // If there's an error from queryConstructor, return the error
+    if (error) return { success: false, msg: error };
+  
+    // Check if searchTerm exists in the query
+    const searchTerm = query.search || '';
+  
+    try {
+      const searchQuery = {
+        index: "default", // Replace with your actual search index name
+        compound: {
+          should: [
+            {
+              text: {
+                query: searchTerm, // Use query object for searchTerm
+                path: ["fullName", "email"], // Ensure field name matches your schema
+                fuzzy: { maxEdits: 1 }, // Enable fuzzy search
+              },
+            },
+          ],
+        },
+      };
+  
+      // const paginationQuery = [
+      //   { $match: params }, // Use params from queryConstructor for filters
+      //   { $limit: Number(limit) },
+      //   { $skip: Number(skip) },
+      //   {
+      //     $sort: sort, // Use sort from queryConstructor
+      //   },
+      // ];
+  
+      const clientResults = await Client.aggregate([
+        {
+          $search: searchQuery,
+        },
+      ]).limit(limit).skip(skip).sort(sort);
+  
+      const designerResults = await Designer.aggregate([
+        {
+          $search: searchQuery,
+        },
+      ]).limit(limit).skip(skip).sort(sort);
+  
+      const results = [
+        ...clientResults, ...designerResults
+      ]
+      
+      return {
+        success: true,
+        msg: userMessages.FETCH_USERS,
+        data: results,
+      };
+    } catch (error) {
+      console.log("error", error);
+      return {
+        success: false,
+        msg: userMessages.NOT_FOUND,
+        data: { error: "Failed to execute search query" },
+      };
     }
   }
 }

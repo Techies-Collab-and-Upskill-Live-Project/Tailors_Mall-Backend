@@ -16,7 +16,7 @@ class DesignerController {
       DesignerService.createDesigner(req.body)
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode  .CREATED, data!)
   }
@@ -30,7 +30,7 @@ class DesignerController {
       DesignerService.DesignerLogin(req.body)
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode  .CREATED, data!)
   }
@@ -44,9 +44,9 @@ class DesignerController {
       DesignerService.resetPassword(req.body)
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode  .CREATED, data!)
+    return responseHandler(res, statusCode  .SUCCESS, data!)
   }
 
   async designerUpdatePassword(
@@ -58,7 +58,7 @@ class DesignerController {
       DesignerService.updatePassword(req.body, res.locals.jwt)
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode  .CREATED, data!)
   }
@@ -67,7 +67,8 @@ class DesignerController {
     const [error, data] = await manageAsyncOps(
       DesignerService.fetchDesignersService(req.query),
     )
-    if (error) return next(error)
+
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode.CREATED, data!)
   }
@@ -77,7 +78,7 @@ class DesignerController {
       DesignerService.searchService(req.query),
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode.CREATED, data!)
   }
@@ -90,10 +91,8 @@ class DesignerController {
       DesignerService.updateDesignerProfile(res.locals.jwt, req.body),
     )
 
-    if (error) return next(error)
-
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-
     return responseHandler(res, 200, data!)
   }
 
@@ -101,10 +100,9 @@ class DesignerController {
     const [error, data] = await manageAsyncOps(
       DesignerService.deleteDesignerProfile(res.locals.jwt),
     )
-    if (error) return next(error)
 
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-
     return responseHandler(res, 200, data!)
   }
 
@@ -113,11 +111,9 @@ class DesignerController {
       DesignerService.getDesignerDetails(res.locals.jwt),
     )
 
-    if (error) return next(error)
-
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-
-    return responseHandler(res, 200, data!)
+    return responseHandler(res, statusCode  .SUCCESS, data!)
   }
 }
 

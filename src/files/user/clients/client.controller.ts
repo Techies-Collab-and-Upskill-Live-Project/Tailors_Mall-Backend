@@ -17,7 +17,7 @@ class ClientController {
       ClientService.createClient(req.body)
     )
 
-    if (error) return next(error)
+    if (error) return next(new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode  .CREATED, data!)
   }
@@ -31,7 +31,7 @@ class ClientController {
       ClientService.clientLogin(req.body)
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode  .CREATED, data!)
   }
@@ -45,7 +45,7 @@ class ClientController {
       ClientService.resetPassword(req.body)
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode  .CREATED, data!)
   }
@@ -59,7 +59,7 @@ class ClientController {
       ClientService.updatePassword(req.body, res.locals.jwt)
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode  .CREATED, data!)
   }
@@ -68,7 +68,8 @@ class ClientController {
     const [error, data] = await manageAsyncOps(
       ClientService.fetchClientsService(req.query),
     )
-    if (error) return next(error)
+
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode.CREATED, data!)
   }
@@ -78,7 +79,7 @@ class ClientController {
       ClientService.searchService(req.query),
     )
 
-    if (error) return next(error)
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
     return responseHandler(res, statusCode.CREATED, data!)
   }
@@ -91,10 +92,8 @@ class ClientController {
       ClientService.updateClientProfile(res.locals.jwt, req.body),
     )
 
-    if (error) return next(error)
-
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-
     return responseHandler(res, 200, data!)
   }
 
@@ -102,10 +101,9 @@ class ClientController {
     const [error, data] = await manageAsyncOps(
       ClientService.deleteClientProfile(res.locals.jwt),
     )
-    if (error) return next(error)
 
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-
     return responseHandler(res, 200, data!)
   }
 
@@ -114,10 +112,8 @@ class ClientController {
       ClientService.getClientDetails(res.locals.jwt),
     )
 
-    if (error) return next(error)
-
+    if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-
     return responseHandler(res, 200, data!)
   }
 }

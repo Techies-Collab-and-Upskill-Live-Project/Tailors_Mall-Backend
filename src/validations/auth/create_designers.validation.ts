@@ -1,4 +1,4 @@
-const createUserValidation = {
+const createDesignersValidation = {
   fullName: {
     notEmpty: true,
     errorMessage: "Full Name cannot be empty",
@@ -19,6 +19,16 @@ const createUserValidation = {
     notEmpty: true,
     errorMessage: "Password cannot be empty",
   },
+  country: {
+    notEmpty: true,
+    errorMessage: "Country cannot be empty",
+    trim: true,
+  },
+  hearPlatformInfo: {
+    notEmpty: true,
+    errorMessage: "Please enter an answer for where you heard of our platform",
+    trim: true,
+  },
 }
 
-export default createUserValidation
+export default createDesignersValidation

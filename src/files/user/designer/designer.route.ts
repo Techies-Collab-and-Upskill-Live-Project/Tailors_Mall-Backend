@@ -1,14 +1,20 @@
 import express from "express"
 import validate from "../../../validations/validate"
 import { checkSchema } from "express-validator"
-import { createUserValidation } from "../../../validations"
+import { createDesignersValidation } from "../../../validations"
 import DesignerController from "./designer.controller"
 import loginAdminValidation from "../../../validations/auth/login_admin.validation"
 import authController from "../../auth/auth.controller"
 import { isAuthenticated } from "../../../utils"
 import uploadManager from "../../../utils/multer"
+import passport from "passport"
+import designer from "./designer.model"
+import passportConfig from "../../../utils/passportConfig"
+
 
 const DesignerRoute = express.Router()
+
+passportConfig(designer);
 
 const {
   designerSignupController,
@@ -27,9 +33,33 @@ const {
   verifyOTP,
 } = authController
 
+// Configure passport with the Designer model
+
+DesignerRoute.get('/google', passport.authenticate('google', { 
+  scope: ['profile', 'email'] 
+}));
+DesignerRoute.get('/google/callback', passport.authenticate('google', {
+  // successRedirect: '/log',
+  failureRedirect: '/',
+}),
+  (req, res) => {
+    res.redirect('/log')
+  }
+);
+
+DesignerRoute.get('/facebook', passport.authenticate('facebook'));
+DesignerRoute.get('/facebook/callback', passport.authenticate('facebook', {
+  // successRedirect: '/log',
+  failureRedirect: '/',
+}),
+  (req, res) => {
+    res.redirect('/log')
+  }
+);
+
 DesignerRoute.post(
   "/signup",
-  validate(checkSchema(createUserValidation)),
+  validate(checkSchema(createDesignersValidation)),
   designerSignupController,
 )
 
