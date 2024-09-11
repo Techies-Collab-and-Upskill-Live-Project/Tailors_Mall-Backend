@@ -5,32 +5,33 @@ const DesignerSchema = new Schema<IDesigner>(
   {
     email: { 
       type: String, 
-      required: true 
+      // required: true 
     },
+    googleId: String,
+    facebookId: String,
     country: { 
       type: String, 
-      required: true 
+      // required: true 
     },
     phoneNumber: { 
       type: String, 
-      required: true 
+      // required: true 
     },
-    password: { type: 
-      String, required: 
-      true 
+    password: { 
+      type: String, 
+      // required: true 
     },
     hearPlatformInfo: { 
       type: String, 
-      required: true 
+      // required: true 
     },
-
     serviceType: { 
       type: String 
     },
     experience: { 
       type: String, 
       enum: ["beginner", "intermediate", "expert"],
-      default: "begginer"
+      default: "beginner"
     },
     projectType: { 
       type: String, 
@@ -77,11 +78,6 @@ const DesignerSchema = new Schema<IDesigner>(
       linkedin: { 
         type: String
       },
-      // Allow for additional social media platforms dynamically
-      other: { 
-        type: Map, 
-        of: String 
-      }
     },
   },
   { timestamps: true },

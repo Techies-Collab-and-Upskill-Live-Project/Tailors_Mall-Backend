@@ -5,15 +5,17 @@ const ClientSchema = new Schema<IClient>(
   {
     email: {
       type: String,
-      required: true,
+      // required: true,
     },
+    googleId: String,
+    facebookId: String,
     phoneNumber: {
       type: String,
-      required: true,
+      // required: true,
     },
     password: {
       type: String,
-      required: true,
+      // required: true,
     },
     info: {
       type: String,
@@ -35,11 +37,11 @@ const ClientSchema = new Schema<IClient>(
     },
     fullName: {
       type: String,
-      required: true,
+      // required: true,
     },
     location: {
       type: String,
-      required: true,
+      // required: true,
     },
     image: {
       type: String,

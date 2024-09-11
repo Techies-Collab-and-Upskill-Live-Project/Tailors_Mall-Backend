@@ -9,6 +9,8 @@ export interface IDesigner extends IUser {
   country?: string
   hearPlatformInfo?: string
 
+  googleId?: String
+  facebookId?: String
   serviceType?: string
   experience?: "beginner" | "intermediate" | "expert"
   projectType?: "one-off" | "full-time"

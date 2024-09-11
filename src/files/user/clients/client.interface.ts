@@ -10,6 +10,8 @@ export interface IClient extends IUser {
   experienceRequirement?: "begginer" | "intermediate" | "expert"
   workChoice?: "local" | "remote" | "neutral"
 
+  googleId?: string
+  facebookId?: String
   fullName: string
   image?:string
   role?: string
