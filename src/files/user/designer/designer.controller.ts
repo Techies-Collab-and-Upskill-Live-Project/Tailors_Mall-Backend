@@ -117,4 +117,65 @@ class DesignerController {
   }
 }
 
+/**
+   * Add portfolio item
+   */
+
+  async addPortfolioItem(req: Request, res: Response, next: NextFunction) {
+    const { image, body } = fileModifier(req); // Assuming image upload handled here
+    req.body.mediaURL = image; // Assuming image URL is returned
+
+    const [error, data] = await manageAsyncOps(
+      DesignerService.addPortfolioItem(res.locals.jwt, req.body),
+    );
+
+    if (error) return next(new CustomError(error.message));
+    if (!data?.success) return next(new CustomError(data!.msg, 400, data!));
+    return responseHandler(res, statusCode.CREATED, data!);
+  }
+
+
+   /**
+   * Edit portfolio item
+   */
+  async editPortfolioItem(req: Request, res: Response, next: NextFunction) {
+    const { image, body } = fileModifier(req);
+    req.body.mediaURL = image; // Assuming image URL is returned
+
+    const [error, data] = await manageAsyncOps(
+      DesignerService.editPortfolioItem(res.locals.jwt, req.params.itemId, req.body),
+    );
+
+    if (error) return next(new CustomError(error.message));
+    if (!data?.success) return next(new CustomError(data!.msg, 400, data!));
+    return responseHandler(res, statusCode.SUCCESS, data!);
+  }
+
+   /**
+   * Delete portfolio item
+   */
+  async deletePortfolioItem(req: Request, res: Response, next: NextFunction) {
+    const [error, data] = await manageAsyncOps(
+      DesignerService.deletePortfolioItem(res.locals.jwt, req.params.itemId),
+    );
+
+    if (error) return next(new CustomError(error.message));
+    if (!data?.success) return next(new CustomError(data!.msg, 400, data!));
+    return responseHandler(res, statusCode.SUCCESS, data!);
+  }
+ 
+
+   /**
+   * Get all portfolio items
+   */
+  async getPortfolio(req: Request, res: Response, next: NextFunction) {
+    const [error, data] = await manageAsyncOps(
+      DesignerService.getPortfolio(res.locals.jwt),
+    );
+
+    if (error) return next(new CustomError(error.message));
+    if (!data?.success) return next(new CustomError(data!.msg, 400, data!));
+    return responseHandler(res, statusCode.SUCCESS, data!);
+  }
+
 export default new DesignerController()

@@ -1,29 +1,44 @@
 import mongoose, { Schema, model } from "mongoose";
-import { IDesigner } from "./designer.interface";
+import { IDesigner, PortfolioItem } from "./designer.interface";
+
+const PortfolioSchema = new Schema<PortfolioItem>({
+  mediaType: {
+    type: String,
+    enum: ["image", "video"],
+    required: true,
+  },
+  mediaURL: {
+    type: String,
+    required: true,
+  },
+  description: {
+    type: String,
+    required: true,
+  },
+  createdAt: {
+    type: Date,
+    default: Date.now,
+  },
+});
 
 const DesignerSchema = new Schema<IDesigner>(
   {
     email: { 
-      type: String, 
-      // required: true 
+      type: String,
     },
     googleId: String,
     facebookId: String,
     country: { 
       type: String, 
-      // required: true 
     },
     phoneNumber: { 
       type: String, 
-      // required: true 
     },
     password: { 
       type: String, 
-      // required: true 
     },
     hearPlatformInfo: { 
       type: String, 
-      // required: true 
     },
     serviceType: { 
       type: String 
@@ -79,9 +94,11 @@ const DesignerSchema = new Schema<IDesigner>(
         type: String
       },
     },
+    portfolio: [PortfolioSchema],  // <-- New portfolio field
   },
   { timestamps: true },
 );
 
 const designer = model<IDesigner>("Designer", DesignerSchema, "designer");
 export default designer;
+
