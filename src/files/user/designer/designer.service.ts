@@ -32,7 +32,7 @@ export default class DesignerService {
   static async updateDesignerDetails(
     designerPayload: Partial<IDesigner>,
     update: Partial<IDesigner>,
-  ): Promise<{ updatedExisting?: boolean | undefined }> {
+  ): Promise<{ updatedExisting?: boolean }> {
     return await AuthService.updateUserDetails(Designer, designerPayload, update);
   }
 
@@ -45,7 +45,7 @@ export default class DesignerService {
 
   static async getDesignerDetails(
     designerPayload: Partial<IDesigner & IPagination>,
-  ): Promise<IResponse | null> {
+  ): Promise<IResponse> {
     return await AuthService.getUserDetails(Designer, designerPayload);
   }
 
@@ -67,7 +67,7 @@ export default class DesignerService {
     return await AuthService.searchService(Designer, query);
   }
 
-  // New methods for managing portfolios
+  // Methods for managing portfolios
 
   static async addPortfolioItem(
     user: IToken,

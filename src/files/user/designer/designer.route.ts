@@ -26,10 +26,9 @@ const {
   fetchDesignerController,
   searchController,
   addPortfolioItem,
-  updatePortfolioItem,
+  editPortfolioItem,
   deletePortfolioItem,
-  fetchAllPortfolioItems,
-  fetchPortfolioItem
+  getPortfolio
 } = DesignerController;
 
 const {
@@ -92,10 +91,10 @@ DesignerRoute.delete("/delete", deleteDesignerProfile);
 DesignerRoute.post("/update/password", designerUpdatePassword);
 
 // Portfolio Routes
-DesignerRoute.get("/portfolio", fetchAllPortfolioItems);
-DesignerRoute.get("/portfolio/:itemId", fetchPortfolioItem);
+DesignerRoute.get("/portfolio", getPortfolio);
+DesignerRoute.get("/portfolio/:itemId", getPortfolio);
 DesignerRoute.post("/portfolio", uploadManager("PortfolioImage").single("media"), addPortfolioItem);
-DesignerRoute.put("/portfolio/:itemId", uploadManager("PortfolioImage").single("media"), updatePortfolioItem);
+DesignerRoute.put("/portfolio/:itemId", uploadManager("PortfolioImage").single("media"), editPortfolioItem);
 DesignerRoute.delete("/portfolio/:itemId", deletePortfolioItem);
 
 export default DesignerRoute;

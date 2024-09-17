@@ -11,10 +11,6 @@ export interface IPortfolioItem {
 
 // Designer interface
 export interface IDesigner extends IUser {
-  id?: ObjectId;
-  email: string;
-  phoneNumber: string;
-  password: string;
   country?: string;
   hearPlatformInfo?: string;
   googleId?: string;
@@ -29,10 +25,6 @@ export interface IDesigner extends IUser {
   businessName?: string;
   description?: string;
   image?: string;
-  role?: string;
-  isDeleted: boolean;
-  createdAt?: Date;
-  updatedAt?: Date;
   socialMediaHandles?: ISocialMediaHandles;
 
   // New portfolio field
