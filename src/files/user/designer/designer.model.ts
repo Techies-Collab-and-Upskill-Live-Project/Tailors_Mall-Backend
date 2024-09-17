@@ -1,7 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
-import { IDesigner, PortfolioItem } from "./designer.interface";
+import { IDesigner, IPortfolioItem } from "./designer.interface";
 
-const PortfolioSchema = new Schema<PortfolioItem>({
+const PortfolioSchema = new Schema<IPortfolioItem>({
   mediaType: {
     type: String,
     enum: ["image", "video"],
