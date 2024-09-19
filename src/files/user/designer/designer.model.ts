@@ -1,6 +1,7 @@
 import mongoose, { Schema, model } from "mongoose";
 import { IDesigner, IPortfolioItem } from "./designer.interface";
 
+// Portfolio Schema
 const PortfolioSchema = new Schema<IPortfolioItem>({
   mediaType: {
     type: String,
@@ -21,57 +22,60 @@ const PortfolioSchema = new Schema<IPortfolioItem>({
   },
 });
 
+// Designer Schema
 const DesignerSchema = new Schema<IDesigner>(
   {
     email: { 
       type: String,
+      required: true, // Adding required to ensure consistency
     },
     googleId: String,
     facebookId: String,
     country: { 
-      type: String, 
+      type: String,
     },
     phoneNumber: { 
-      type: String, 
+      type: String,
     },
     password: { 
-      type: String, 
+      type: String,
     },
     hearPlatformInfo: { 
-      type: String, 
+      type: String,
     },
     serviceType: { 
-      type: String 
+      type: String,
     },
     experience: { 
-      type: String, 
+      type: String,
       enum: ["beginner", "intermediate", "expert"],
-      default: "beginner"
+      default: "beginner",
     },
     projectType: { 
-      type: String, 
+      type: String,
       enum: ["one-off", "full-time"],
-      default: "one-off"
+      default: "one-off",
     },
     workPreference: { 
-      type: String, 
+      type: String,
       enum: ["in-person", "remote", "both"],
-      default: "both"
+      default: "both",
     },
     fullName: { 
-      type: String 
+      type: String,
+      required: true, // Adding required to ensure consistency
     },
     location: { 
-      type: String 
+      type: String,
     },
     tailoringSkill: { 
-      type: String 
+      type: String,
     },
     businessName: { 
-      type: String 
+      type: String,
     },
     description: { 
-      type: String 
+      type: String,
     },
     image: {
       type: String,
@@ -82,23 +86,23 @@ const DesignerSchema = new Schema<IDesigner>(
     },
     socialMediaHandles: {
       facebook: { 
-        type: String 
+        type: String,
       },
       instagram: { 
-        type: String 
+        type: String,
       },
       twitter: { 
-        type: String 
+        type: String,
       },
       linkedin: { 
-        type: String
+        type: String,
       },
     },
-    portfolio: [PortfolioSchema],  // <-- New portfolio field
+    portfolio: [PortfolioSchema],  // Array of PortfolioItem schemas
   },
-  { timestamps: true },
+  { timestamps: true }
 );
 
-const designer = model<IDesigner>("Designer", DesignerSchema, "designer");
-export default designer;
+const Designer = model<IDesigner>("Designer", DesignerSchema, "designer");
+export default Designer;
 
