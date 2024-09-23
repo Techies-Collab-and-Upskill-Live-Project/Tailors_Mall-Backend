@@ -6,6 +6,7 @@ export interface IClient extends IUser {
   phoneNumber: string
   password: string
   info?:string
+  country?: string
   service?: "fulltime" | "oneoff"
   experienceRequirement?: "begginer" | "intermediate" | "expert"
   workChoice?: "local" | "remote" | "neutral"

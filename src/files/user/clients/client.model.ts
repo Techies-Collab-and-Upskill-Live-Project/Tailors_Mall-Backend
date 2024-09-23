@@ -46,6 +46,10 @@ const ClientSchema = new Schema<IClient>(
     image: {
       type: String,
     },
+    country: { 
+      type: String, 
+      // required: true 
+    },
     isDeleted: {
       type: Boolean,
       default: false,
