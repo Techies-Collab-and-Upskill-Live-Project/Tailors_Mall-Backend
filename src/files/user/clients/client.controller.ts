@@ -3,9 +3,9 @@ import { fileModifier, manageAsyncOps } from "../../../utils";
 import ClientService from "./client.service";
 import { CustomError } from "../../../utils/error";
 import { responseHandler } from "../../../core/response";
-import { statusCode } from "../../../constants/statusCode";
 import { IPagination, IResponse } from '../../../constants';
 import { IClient } from './client.interface';
+import { statusCode } from '../../../constants/statusCode';
 
 class ClientController {
   async clientSignupController(

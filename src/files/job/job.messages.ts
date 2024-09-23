@@ -1,0 +1,15 @@
+export const jobMessage = {
+  REQUEST_FAILURE: "unable to create job post",
+  REQUEST_SUCCESS: "job post created successfully",
+  FETCH_ERROR: "job post not found",
+  FETCH_SUCCESS: "fetch successful",
+  UPDATE_ERROR: "unable to update job post",
+  UPDATE_SUCCESS: "job post update successful",
+  DELETE: "job post successfully deleted",
+  DELETE_ERROR: "unable to delete job post",
+  DECLINED_REQUEST: "You cannot update this job post because you already responded to it.",
+  ALLREADY_ASSIGNED: "Partner is already assigned to this job post.",
+  PERSONEL_MISSMATCH: "The amount of trucks required for this job post does not match the number of personel assigned",
+  ALREADY_APPLIED: "You already accepted this job post",
+  MISSING_DATA: "please provide the number of available trucks",
+}
