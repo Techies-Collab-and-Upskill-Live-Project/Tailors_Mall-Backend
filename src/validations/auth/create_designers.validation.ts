@@ -1,9 +1,9 @@
 const createDesignersValidation = {
-  fullName: {
-    notEmpty: true,
-    errorMessage: "Full Name cannot be empty",
-    trim: true,
-  },
+  // fullName: {
+  //   notEmpty: true,
+  //   errorMessage: "Full Name cannot be empty",
+  //   trim: true,
+  // },
   email: {
     notEmpty: true,
     isEmail: true,

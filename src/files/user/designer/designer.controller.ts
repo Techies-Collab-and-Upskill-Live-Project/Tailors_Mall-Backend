@@ -18,7 +18,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode  .CREATED, data!)
+    return responseHandler(res, statusCode.CREATED, data!)
   }
 
   async designerLoginController(
@@ -32,7 +32,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode  .CREATED, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async designerResetPassword(
@@ -46,7 +46,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode  .SUCCESS, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async designerUpdatePassword(
@@ -60,7 +60,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode  .CREATED, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async fetchDesignerController(req: Request, res: Response, next: NextFunction) {
@@ -70,7 +70,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode.CREATED, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async searchController(req: Request, res: Response, next: NextFunction) {
@@ -80,7 +80,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode.CREATED, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async updateDesignerProfile(req: Request, res: Response, next: NextFunction) {
@@ -93,7 +93,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-    return responseHandler(res, 200, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async deleteDesignerProfile(req: Request, res: Response, next: NextFunction) {
@@ -103,7 +103,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-    return responseHandler(res, 200, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async getDesignerProfile(_: Request, res: Response, next: NextFunction) {
@@ -113,7 +113,7 @@ class DesignerController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-    return responseHandler(res, statusCode  .SUCCESS, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 }
 

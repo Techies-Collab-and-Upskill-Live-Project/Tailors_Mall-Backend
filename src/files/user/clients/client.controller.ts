@@ -33,7 +33,7 @@ class ClientController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode  .CREATED, data!)
+    return responseHandler(res, statusCode  .SUCCESS, data!)
   }
 
   async clientResetPassword(
@@ -47,7 +47,7 @@ class ClientController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode  .CREATED, data!)
+    return responseHandler(res, statusCode  .SUCCESS, data!)
   }
 
   async clientUpdatePassword(
@@ -61,7 +61,7 @@ class ClientController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode  .CREATED, data!)
+    return responseHandler(res, statusCode  .SUCCESS, data!)
   }
 
   async fetchClientController(req: Request, res: Response, next: NextFunction) {
@@ -71,7 +71,7 @@ class ClientController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode.CREATED, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async searchController(req: Request, res: Response, next: NextFunction) {
@@ -81,7 +81,7 @@ class ClientController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
-    return responseHandler(res, statusCode.CREATED, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async updateClientProfile(req: Request, res: Response, next: NextFunction) {
@@ -94,7 +94,7 @@ class ClientController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-    return responseHandler(res, 200, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async deleteClientProfile(req: Request, res: Response, next: NextFunction) {
@@ -104,7 +104,7 @@ class ClientController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-    return responseHandler(res, 200, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 
   async getClientProfile(_: Request, res: Response, next: NextFunction) {
@@ -114,7 +114,7 @@ class ClientController {
 
     if (error) return next( new CustomError(error.message))
     if (!data?.success) return next(new CustomError(data!.msg, 400))
-    return responseHandler(res, 200, data!)
+    return responseHandler(res, statusCode.SUCCESS, data!)
   }
 }
 

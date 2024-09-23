@@ -1,9 +1,9 @@
 const createClientValidation = {
-  fullName: {
-    notEmpty: true,
-    errorMessage: "Full Name cannot be empty",
-    trim: true,
-  },
+  // fullName: {
+  //   notEmpty: true,
+  //   errorMessage: "Full Name cannot be empty",
+  //   trim: true,
+  // },
   email: {
     notEmpty: true,
     isEmail: true,
@@ -19,9 +19,14 @@ const createClientValidation = {
     notEmpty: true,
     errorMessage: "Password cannot be empty",
   },
-  location: {
+  country: {
     notEmpty: true,
     errorMessage: "Location cannot be empty",
+    trim: true,
+  },
+  hearPlatformInfo: {
+    notEmpty: true,
+    errorMessage: "Please enter an answer for where you heard of our platform",
     trim: true,
   },
 }
