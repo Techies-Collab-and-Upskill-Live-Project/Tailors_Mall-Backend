@@ -1,4 +1,5 @@
-export const jobMessage = {
+export const jobMessages = {
+  UNAUTHORIZED: "this account is not authorized to create a job",
   REQUEST_FAILURE: "unable to create job post",
   REQUEST_SUCCESS: "job post created successfully",
   FETCH_ERROR: "job post not found",
