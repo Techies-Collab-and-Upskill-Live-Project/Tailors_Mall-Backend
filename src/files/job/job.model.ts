@@ -1,10 +1,14 @@
-import { model, Schema } from "mongoose";
+import mongoose, { model, Schema } from "mongoose";
 import { IJob } from "./job.interface";
 
 const JobSchema = new Schema<IJob>(
   {
     title: {
       type: String,
+    },
+    clientId: {
+      type: mongoose.Types.ObjectId,
+      ref: "Client"
     },
     category: {
       type: String,
@@ -43,6 +47,10 @@ const JobSchema = new Schema<IJob>(
     },
     timeLine: {
       type: String
+    },
+    isDelete: {
+      type: Boolean,
+      default: false
     }
   }
 )
