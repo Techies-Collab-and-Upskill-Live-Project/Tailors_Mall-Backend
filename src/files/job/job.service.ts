@@ -26,12 +26,22 @@ export class JobService {
     if (!job)
       return { success: false, msg: jobMessages.REQUEST_FAILURE };
 
-    await NotificationRepository.createNotification({
-      title: "New Job Posted",
-      message: `Congratulations, you are now a verified partner with Lead Capital... Welcome on board`,
-      recipientId: new mongoose.Types.ObjectId(clientPayload._id),
-      recipient: "Client",
-    })
+    const notifications = [
+      NotificationRepository.createNotification({
+        title: "New Job Posted",
+        message: `A new job titled ${jobPayload.title} has been posted by ${clientPayload.fullName}.`,
+        recipient: "Designer", // Sending notification to all designers
+      }),
+      NotificationRepository.createNotification({
+        title: "Job Post Created",
+        message: `Your job titled ${jobPayload.title} has been posted successfully.`,
+        recipientId: new mongoose.Types.ObjectId(clientPayload._id),
+        recipient: "Client", // Notification to the client
+      }),
+    ];
+  
+    // Use Promise.all to execute both notifications concurrently
+    await Promise.all(notifications);
 
     return {
       success: true,
