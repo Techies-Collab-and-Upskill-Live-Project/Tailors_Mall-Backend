@@ -7,6 +7,7 @@ import AuthService from "../user/general/general.service";
 import { IJob } from "./job.interface";
 import { jobMessages } from "./job.messages";
 import { JobRepository } from "./job.repository";
+import NotificationRepository from "../notifications/notification.repository";
 
 export class JobService {
   static async createJobService (
@@ -16,14 +17,21 @@ export class JobService {
     const client = await AuthService.getUserDetails(Client, clientPayload)
 
     if (!client)
-      return { success: false, msg: jobMessages.UNAUTHORIZED }
+      return { success: false, msg: jobMessages.UNAUTHORIZED };
 
     const job = await JobRepository.createJob({
       ...jobPayload, clientId: clientPayload._id 
     })
 
     if (!job)
-      return { success: false, msg: jobMessages.REQUEST_FAILURE }
+      return { success: false, msg: jobMessages.REQUEST_FAILURE };
+
+    await NotificationRepository.createNotification({
+      title: "New Job Posted",
+      message: `Congratulations, you are now a verified partner with Lead Capital... Welcome on board`,
+      recipientId: new mongoose.Types.ObjectId(clientPayload._id),
+      recipient: "Client",
+    })
 
     return {
       success: true,
