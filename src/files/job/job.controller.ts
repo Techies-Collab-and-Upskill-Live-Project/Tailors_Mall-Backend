@@ -61,6 +61,22 @@ class JobController {
 
     return responseHandler(res, statusCode.SUCCESS, data!)
   }
+
+  async applyForJobController(req: Request, res: Response, next: NextFunction) {
+    const [error, data] = await manageAsyncOps(
+      JobService.applyForJobService({
+        designerId: res.locals.jwt,
+        params: req.params as { jobId: string },
+        applicationPayload: req.body
+      })
+    )
+
+    if (error) return next(error)
+
+    if (!data?.success) return next(new CustomError(data!.msg, 400, data!))
+
+    return responseHandler(res, 200, data!)
+  }
 }
 
 export default new JobController()

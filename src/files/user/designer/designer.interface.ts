@@ -1,5 +1,6 @@
 import { ObjectId } from "mongoose";
 import { IUser } from "../general/general.interface";
+import mongoose from "mongoose";
 
 export interface IDesigner extends IUser {
   id?: ObjectId
@@ -23,9 +24,10 @@ export interface IDesigner extends IUser {
   image?:string
   role?: string
   isDeleted: boolean
+  socialMediaHandles?: ISocialMediaHandles
+  applications?: mongoose.Types.ObjectId[]
   createdAt?: Date
   updatedAt?: Date
-  socialMediaHandles?: ISocialMediaHandles
 }
 
 export interface ISocialMediaHandles {

@@ -1,22 +1,23 @@
 import mongoose from "mongoose";
 import { IPagination, IResponse } from "../../constants";
-import { queryConstructor } from "../../utils";
-import Client from "../user/clients/client.model";
+import { IToken, queryConstructor } from "../../utils";
 import { IUser } from "../user/general/general.interface";
-import AuthService from "../user/general/general.service";
-import { IJob } from "./job.interface";
+import { IJob, IJobApplication } from "./job.interface";
 import { jobMessages } from "./job.messages";
 import { JobRepository } from "./job.repository";
 import NotificationRepository from "../notifications/notification.repository";
+import { jobApplication as JobApplication } from "./job.model";
+import DesignerService from "../user/designer/designer.service";
+import ClientService from "../user/clients/client.service";
 
 export class JobService {
   static async createJobService (
     jobPayload: IJob,
     clientPayload: Partial<IUser & IPagination>,
   ): Promise<IResponse> {
-    const client = await AuthService.getUserDetails(Client, clientPayload)
+    const client = await ClientService.getClientDetails(clientPayload)
 
-    if (!client)
+    if (!client?.success)
       return { success: false, msg: jobMessages.UNAUTHORIZED };
 
     const job = await JobRepository.createJob({
@@ -105,5 +106,58 @@ export class JobService {
       success: true,
       msg: jobMessages.DELETE,
     }
+  }
+
+  static async applyForJobService(data: {
+    designerId: IToken,
+    params: {jobId: String},
+    applicationPayload: Partial<IJobApplication>,
+  }): Promise<IResponse> {
+    const { designerId, params, applicationPayload } = data
+    // Find the designer and job
+    const designer = await DesignerService.getDesignerDetails(designerId);
+    if (!designer?.success) {
+      return { success: false, msg: "You are not authorized to apply for jobs" };
+    }
+
+    const job = await JobRepository.fetchJob({ _id: params.jobId }, {});
+    if (!job) {
+      return { success: false, msg: "job not found." };
+    }
+  
+    // Create job application
+    const jobApplication = await JobApplication.create({
+      ...applicationPayload,
+      jobId: params.jobId,
+      designerId
+    });
+  
+    const jobUpdatePayload = {
+      applications: [...(job.applications || []), jobApplication._id], // Add application ID to job applications
+    }
+
+    // Update designer and job with the new application reference
+    const designerUpdateResponse = await DesignerService.updateDesignerProfile(designerId, jobUpdatePayload)
+    if (!designerUpdateResponse.success) {
+      return { success: false, msg: designerUpdateResponse.msg };
+    }
+  
+    const jobUpdateResponse = await this.updateJob(jobUpdatePayload, params.jobId);
+    if (!jobUpdateResponse.success) {
+      return { success: false, msg: jobUpdateResponse.msg };
+    }
+
+    await NotificationRepository.createNotification({
+      title: "job-application",
+      message: `Designer "${designer?.data?.fullName}" has applied for your job "${job.title}".`,
+      recipientId: new mongoose.Types.ObjectId(job.clientId),
+      recipient: "Client",
+    })
+  
+    return {
+      success: true,
+      msg: "Application submitted successfully.",
+      data: jobApplication,
+    };
   }
 }
