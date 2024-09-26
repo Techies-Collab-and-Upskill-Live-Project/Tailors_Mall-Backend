@@ -1,6 +1,6 @@
 import pagination, { IPagination } from "../../constants";
 import { IJob } from "./job.interface";
-import Job from "./job.model";
+import { job as Job } from "./job.model";
 const { LIMIT, SKIP, SORT } = pagination
 
 export class JobRepository {

@@ -79,6 +79,10 @@ const DesignerSchema = new Schema<IDesigner>(
         type: String
       },
     },
+    applications: [{
+      type: mongoose.Schema.Types.ObjectId,
+      ref: "JobApplication",
+    }],
   },
   { timestamps: true },
 );

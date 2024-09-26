@@ -11,7 +11,8 @@ const {
   createJobController,
   getJobController,
   updateJobController,
-  deleteJobController
+  deleteJobController,
+  applyForJobController
 } = jobController
 
 JobRouter.use(isAuthenticated)
@@ -25,5 +26,6 @@ JobRouter.post(
 JobRouter.get("/", getJobController)
 JobRouter.put("/:id", updateJobController)
 JobRouter.put("/delete/:id", deleteJobController)
+JobRouter.put("/apply/:jobId", applyForJobController)
 
 export default JobRouter

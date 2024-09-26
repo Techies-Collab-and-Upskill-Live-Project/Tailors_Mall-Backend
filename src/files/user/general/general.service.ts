@@ -131,16 +131,16 @@ export default class AuthService {
   // User Main Service
   static async updateUserDetails<T extends Model<IUser>>(
     model: T,
-    clientPayload: Partial<IUser>,
+    userPayload: Partial<IUser>,
     update: Partial<IUser>,
   ): Promise<{ updatedExisting?: boolean | undefined }> {
-    return Repository.updateUserDetails(model, clientPayload, update)
+    return Repository.updateUserDetails(model, userPayload, update)
   }
 
   static async updateUserProfile<T extends Model<IUser>>(
     model: T,
     user: IToken,
-    clientPayload: Partial<IUser>,
+    userPayload: Partial<IUser>,
   ): Promise<IResponse> {
     const { _id } = user
 
@@ -149,7 +149,7 @@ export default class AuthService {
       {
         _id: new mongoose.Types.ObjectId(_id),
       },
-      { ...clientPayload },
+      { ...userPayload },
     )
 
     if (!update)
@@ -163,9 +163,9 @@ export default class AuthService {
 
   static async getUserDetails<T extends Model<IUser>>(
     model: T,
-    clientPayload: Partial<IUser & IPagination>,
+    userPayload: Partial<IUser & IPagination>,
   ): Promise<IResponse | null> {
-    const { _id, email } = clientPayload
+    const { _id, email } = userPayload
 
     const user = await Repository.fetchUsersByParams(
       model,
