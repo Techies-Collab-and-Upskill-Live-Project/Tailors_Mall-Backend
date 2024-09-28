@@ -1,6 +1,6 @@
 import pagination, { IPagination } from "../../constants";
-import { IJob } from "./job.interface";
-import { job as Job } from "./job.model";
+import { IJob, IJobApplication } from "./job.interface";
+import { job as Job, jobApplication as JobApplication } from "./job.model";
 const { LIMIT, SKIP, SORT } = pagination
 
 export class JobRepository {
@@ -60,5 +60,28 @@ export class JobRepository {
     )
 
     return updateJob
+  }
+
+  static async fetchJobApplicationByParams(
+    applicationPayload: Partial<IJobApplication & IPagination>,
+  ) {
+    const {
+      limit = LIMIT,
+      skip = SKIP,
+      sort = SORT,
+      ...restOfPayload
+    } = applicationPayload
+
+    const application: Awaited<IJobApplication[] | null> = await JobApplication.find({
+      ...restOfPayload,
+      // isDelete: false,
+    })
+      .sort(sort)
+      .skip(skip)
+      .limit(limit)
+      .populate("jobId", "title description category status") // Populate job details
+      .exec();
+
+    return application
   }
 }

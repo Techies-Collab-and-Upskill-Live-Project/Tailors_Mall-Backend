@@ -55,7 +55,7 @@ export class JobService {
     const { error, params, limit, skip, sort } = queryConstructor(
       jobPayload,
       "createdAt",
-      "Request",
+      "Job",
     )
 
     if (error) return { success: false, msg: error }
@@ -158,6 +158,38 @@ export class JobService {
       success: true,
       msg: "Application submitted successfully.",
       data: jobApplication,
+    };
+  }
+
+  static async fetchDesignerApplications(
+    designerId: IToken,
+    applicationsPayload: Partial<IJobApplication>
+  ): Promise<IResponse> {
+    const { error, params, limit, skip, sort } = queryConstructor(
+      applicationsPayload,
+      "createdAt",
+      "JobApplication",
+    )
+
+    if (error) return { success: false, msg: error }
+
+    const applications = await JobApplication.find({
+      ...params,
+      designerId: designerId._id,
+      limit,
+      skip,
+      sort,
+    })
+      
+
+    if (!applications || applications.length === 0) {
+      return { success: false, msg: "No job applications found for this designer.", data: [] };
+    }
+
+    return {
+        success: true,
+        msg: "Jobs fetched successfully.",
+        data: applications,
     };
   }
 }
