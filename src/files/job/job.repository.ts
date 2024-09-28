@@ -74,7 +74,7 @@ export class JobRepository {
 
     const application: Awaited<IJobApplication[] | null> = await JobApplication.find({
       ...restOfPayload,
-      // isDelete: false,
+      isDelete: false,
     })
       .sort(sort)
       .skip(skip)

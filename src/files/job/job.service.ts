@@ -115,16 +115,19 @@ export class JobService {
   }): Promise<IResponse> {
     const { designerId, params, applicationPayload } = data
     // Find the designer and job
-    const designer = await DesignerService.getDesignerDetails(designerId);
-    if (!designer?.success) {
-      return { success: false, msg: "You are not authorized to apply for jobs" };
-    }
-
     const job = await JobRepository.fetchJob({ _id: params.jobId }, {});
     if (!job) {
       return { success: false, msg: "job not found." };
     }
-  
+
+    if (job.status === "closed")
+      return { success: false, msg: "This job is closed for application." }
+
+    const designer = await DesignerService.getDesignerDetails(designerId);
+    if (!designer?.success) {
+      return { success: false, msg: "You are not authorized to apply for jobs" };
+    }
+   
     // Create job application
     const jobApplication = await JobApplication.create({
       ...applicationPayload,
@@ -173,7 +176,7 @@ export class JobService {
 
     if (error) return { success: false, msg: error }
 
-    const applications = await JobApplication.find({
+    const applications = await JobRepository.fetchJobApplicationByParams({
       ...params,
       designerId: designerId._id,
       limit,
