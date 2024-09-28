@@ -28,6 +28,6 @@ JobRouter.get("/", getJobController)
 JobRouter.put("/:id", updateJobController)
 JobRouter.put("/delete/:id", deleteJobController)
 JobRouter.put("/apply/:jobId", applyForJobController)
-JobRouter.put("/applied-jobs/", getDesignerApplicationsController)
+JobRouter.get("/applied-jobs", getDesignerApplicationsController)
 
 export default JobRouter
