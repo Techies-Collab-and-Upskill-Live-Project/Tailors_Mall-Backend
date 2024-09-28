@@ -92,6 +92,10 @@ const JobApplicationSchema = new Schema<IJobApplication>(
       type: String,
       default: "", // optional message from the designer
     },
+    isDelete: {
+      type: Boolean,
+      default: false
+    },
   },
   { timestamps: true }
 );

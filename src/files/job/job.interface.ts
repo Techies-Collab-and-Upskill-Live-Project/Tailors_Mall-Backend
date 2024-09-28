@@ -34,4 +34,5 @@ export interface IJobApplication {
   message?: string;  // Optional message from the designer (cover letter or additional details)
   createdAt?: Date;  // Timestamp when the application was created
   updatedAt?: Date;  // Timestamp when the application was last updated
+  isDelete: boolean
 }
