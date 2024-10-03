@@ -1,3 +1,4 @@
+import mongoose from "mongoose";
 import pagination, { IPagination } from "../../constants";
 import { IPortfolio } from "./portfolio.interface";
 import { portfolio as Portfolio } from "./portfolio.model";
@@ -9,24 +10,10 @@ export class PortfolioRepository {
     return await Portfolio.create(portfolioPayload);
   }
 
-  // Fetch a portfolio item based on criteria
-  static async fetchPortfolio(
-    portfolioPayload: Partial<IPortfolio> | Record<any, any>,
-    select: Partial<Record<keyof IPortfolio, number | Boolean | object>>,
-  ): Promise<Partial<IPortfolio> | null> {
-    const portfolio: Awaited<IPortfolio | null> = await Portfolio.findOne(
-      {
-        ...portfolioPayload,
-      },
-      select,
-    );
-    return portfolio;
-  }
-
   // Fetch multiple portfolio items based on params with pagination
   static async fetchPortfolioByParams(
     portfolioPayload: Partial<IPortfolio & IPagination>,
-  ) {
+  ): Promise<IPortfolio[]> {
     const {
       limit = LIMIT,
       skip = SKIP,
@@ -34,7 +21,7 @@ export class PortfolioRepository {
       ...restOfPayload
     } = portfolioPayload;
 
-    const portfolios: Awaited<IPortfolio[] | null> = await Portfolio.find({
+    const portfolios = await Portfolio.find({
       ...restOfPayload,
       isDelete: false,
     })
@@ -46,24 +33,29 @@ export class PortfolioRepository {
     return portfolios;
   }
 
-  // Update portfolio details
-  static async updatePortfolioDetails(
-    portfolioPayload: Partial<IPortfolio>,
-    update:
-      | Partial<IPortfolio>
-      | { $push?: Record<any, any>; $set?: Record<any, any> }
-      | { $set: Partial<IPortfolio> },
-      arrayFilters?: any[] | undefined
-  ) {
-    const updatedPortfolio = await Portfolio.findOneAndUpdate(
-      {
-        ...portfolioPayload,
-      },
-      { ...update },
-      { new: true, runValidators: true, arrayFilters }, // Returns updated portfolio details
-    );
+  // Fetch Portfolio by ID
+  static async fetchPortfolioById(
+    portfolioId: mongoose.Types.ObjectId,
+  ): Promise<IPortfolio | null> {
+    return await Portfolio.findById(portfolioId);
+  }
 
-    return updatedPortfolio;
+  // Update Portfolio by ID
+  static async updatePortfolioById(
+    portfolioId: mongoose.Types.ObjectId,
+    updatePayload: Partial<IPortfolio>,
+  ): Promise<IPortfolio | null> {
+    return await Portfolio.findByIdAndUpdate(portfolioId, updatePayload, {
+      new: true,
+      runValidators: true,
+    });
+  }
+
+  // Delete Portfolio by ID
+  static async deletePortfolioById(
+    portfolioId: mongoose.Types.ObjectId,
+  ): Promise<void> {
+    await Portfolio.findByIdAndDelete(portfolioId);
   }
 }
 

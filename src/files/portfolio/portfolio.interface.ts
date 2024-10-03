@@ -1,7 +1,7 @@
 import mongoose from "mongoose";
 
 export interface IPortfolio {
-  _id: any;
+  _id: mongoose.Types.ObjectId; // Use Types.ObjectId for the _id
   designerId: mongoose.Types.ObjectId; // Reference to the designer who owns this portfolio
   mediaType: "image" | "video"; // Type of media (image or video)
   mediaURL: string; // URL of the media

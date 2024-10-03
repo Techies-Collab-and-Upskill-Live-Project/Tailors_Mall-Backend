@@ -4,17 +4,18 @@ import { CustomError } from "../../utils/error";
 import { responseHandler } from "../../core/response";
 import { statusCode } from "../../constants/statusCode";
 import { PortfolioService } from "./portfolio.services";
+import mongoose from "mongoose";  // Import mongoose for ObjectId conversion
 
 class PortfolioController {
+
   // Create portfolio item (image/video)
   async createPortfolioItemController(
     req: Request,
     res: Response,
     next: NextFunction,
   ) {
-    // Use fileModifier for handling image/video uploads
     const [error, data] = await manageAsyncOps(
-      PortfolioService.createPortfolioItemService(req.body, res.locals.jwt, req.files)
+      PortfolioService.createPortfolioService(req.body, res.locals.jwt)
     );
 
     if (error) return next(error);
@@ -30,7 +31,7 @@ class PortfolioController {
     next: NextFunction,
   ) {
     const [error, data] = await manageAsyncOps(
-      PortfolioService.fetchPortfolioItemsService(res.locals.jwt, req.query),
+      PortfolioService.fetchPortfolioService(req.query),
     );
 
     if (error) return next(error);
@@ -45,8 +46,11 @@ class PortfolioController {
     res: Response,
     next: NextFunction,
   ) {
+    // Convert string ID to ObjectId
+    const objectId = new mongoose.Types.ObjectId(req.params.id);
+    
     const [error, data] = await manageAsyncOps(
-      PortfolioService.updatePortfolioItemService(req.body, req.params.id, res.locals.jwt)
+      PortfolioService.updatePortfolioService(res.locals.jwt, objectId, req.body)
     );
 
     if (error) return next(error);
@@ -61,8 +65,11 @@ class PortfolioController {
     res: Response,
     next: NextFunction,
   ) {
+    // Convert string ID to ObjectId
+    const objectId = new mongoose.Types.ObjectId(req.params.id);
+    
     const [error, data] = await manageAsyncOps(
-      PortfolioService.deletePortfolioItemService(req.params.id, res.locals.jwt),
+      PortfolioService.deletePortfolioService(res.locals.jwt, objectId)
     );
 
     if (error) return next(error);

@@ -6,12 +6,13 @@ import { IDesigner } from "./designer.interface";
 import Designer from "./designer.model";
 
 export default class DesignerService {
+  
   static async createDesigner(designerPayload: IDesigner): Promise<IResponse> {
-    return await AuthService.createUser(Designer, designerPayload)
+    return await AuthService.createUser(Designer, designerPayload);
   }
 
   static async DesignerLogin(
-    designerPayload: Pick<IDesigner, "email" | "password" >
+    designerPayload: Pick<IDesigner, "email" | "password">
   ): Promise<IResponse> {
     return await AuthService.login(Designer, designerPayload);
   }
@@ -23,7 +24,7 @@ export default class DesignerService {
   }
 
   static async updatePassword(
-    designerPayload: IUserResetPasswordPayload, 
+    designerPayload: IUserResetPasswordPayload,
     user: IToken
   ): Promise<IResponse> {
     return await AuthService.updatePassword(Designer, designerPayload, user);
@@ -33,37 +34,45 @@ export default class DesignerService {
     designerPayload: Partial<IDesigner>,
     update: Partial<IDesigner>,
   ): Promise<{ updatedExisting?: boolean | undefined }> {
-    return await AuthService.updateUserDetails(Designer, designerPayload, update)
+    return await AuthService.updateUserDetails(Designer, designerPayload, update);
   }
 
   static async updateDesignerProfile(
     user: IToken,
     designerPayload: Partial<IDesigner>,
-  ):Promise<IResponse> {
-    return await AuthService.updateUserProfile(Designer, user, designerPayload)
+  ): Promise<IResponse> {
+    return await AuthService.updateUserProfile(Designer, user, designerPayload);
   }
 
   static async getDesignerDetails(
     designerPayload: Partial<IDesigner & IPagination>,
   ): Promise<IResponse | null> {
-    return await AuthService.getUserDetails(Designer, designerPayload)
+    return await AuthService.getUserDetails(Designer, designerPayload);
   }
 
-  static async deleteDesignerProfile(
-    user: IToken
-  ): Promise<IResponse> {
-    return await AuthService.deleteUserProfile(Designer, user)
+  static async deleteDesignerProfile(user: IToken): Promise<IResponse> {
+    return await AuthService.deleteUserProfile(Designer, user);
   }
 
-  static async fetchDesignersService(
-    query: Partial<IDesigner>
-  ) {
-    return await AuthService.fetchUsersService(Designer, query)
+  static async fetchDesignersService(query: Partial<IDesigner>) {
+    return await AuthService.fetchUsersService(Designer, query);
   }
 
-  static async searchService(
-    query: Partial<IDesigner>
-  ) {
-    return await AuthService.searchService(Designer, query)
+  static async searchService(query: Partial<IDesigner>) {
+    return await AuthService.searchService(Designer, query);
   }
+
+  static async fetchDesignerById(designerId: string): Promise<IResponse> {
+  const designer = await Designer.findById(designerId);
+  
+  if (!designer) {
+    return { success: false, msg: "Designer not found" };
+  }
+
+  return {
+    success: true,
+    msg: "Designer fetched successfully",
+    data: designer
+  };
+}
 }
