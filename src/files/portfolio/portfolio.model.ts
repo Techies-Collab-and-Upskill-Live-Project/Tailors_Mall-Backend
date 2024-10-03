@@ -1,16 +1,17 @@
-import mongoose, { Schema, Document } from 'mongoose';
+import mongoose, { Schema, model } from "mongoose";
+import { IPortfolio } from "./portfolio.interface";
 
-// Define the Portfolio schema
-const portfolioSchema: Schema = new mongoose.Schema(
+// Portfolio Schema
+const PortfolioSchema = new Schema<IPortfolio>(
   {
     designerId: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: 'Designer',
+      ref: "Designer",
       required: true,
     },
     mediaType: {
       type: String,
-      enum: ['image', 'video'],
+      enum: ["image", "video"],
       required: true,
     },
     mediaURL: {
@@ -19,73 +20,49 @@ const portfolioSchema: Schema = new mongoose.Schema(
     },
     description: {
       type: String,
-      maxlength: 1000, // You can define a limit for the description length
+      maxlength: 1000, // Description length should be less than 1000 characters
+      default: "",
+    },
+    portfolioName: { // New field for portfolio name
+      type: String,
+      required: true, // Make it required
+    },
+    collaborators: { // New optional field for collaborators
+      type: [String], // Array of strings
+      default: [], // Default is an empty array
     },
     tags: {
-      type: [String], // An array of strings for tagging the portfolio item
+      type: [String], // Array of tags
+      default: [], // Default is an empty array
     },
     categories: {
-      type: [String], // An array of categories for classification
+      type: [String], // Array of categories
+      default: [], // Default is an empty array
     },
-    views: {
-      type: Number,
-      default: 0,
-    },
-    likes: {
-      type: Number,
-      default: 0,
-    },
-    comments: [
-      {
-        userId: {
-          type: mongoose.Schema.Types.ObjectId,
-          ref: 'User', // Referencing the User model
-        },
-        commentText: {
-          type: String,
-          maxlength: 500, // Maximum length for a comment
-        },
-        createdAt: {
-          type: Date,
-          default: Date.now,
-        },
-      },
-    ],
     isFeatured: {
       type: Boolean,
       default: false,
     },
     isPublic: {
       type: Boolean,
-      default: true, // If false, the portfolio is private
+      default: true,
     },
-    createdAt: {
-      type: Date,
-      default: Date.now,
-    },
-    updatedAt: {
-      type: Date,
-      default: Date.now,
+    isDelete: {
+      type: Boolean,
+      default: false, // Soft delete flag
     },
   },
   {
-    timestamps: true, // Automatically manages createdAt and updatedAt fields
+    timestamps: true, // Automatically manage createdAt and updatedAt fields
   }
 );
 
-// Create a virtual field for total engagement (views + likes)
-portfolioSchema.virtual('totalEngagement').get(function () {
-  return this.views + this.likes;
-});
+// Indexes for faster search by designerId and isPublic (optional)
+PortfolioSchema.index({ designerId: 1 });
+PortfolioSchema.index({ isPublic: 1 });
 
-// Pre-save hook to update the `updatedAt` field
-portfolioSchema.pre('save', function (next) {
-  this.updatedAt = new Date();
-  next();
-});
+// Creating the Portfolio model
+const Portfolio = model<IPortfolio>("Portfolio", PortfolioSchema, "portfolio");
 
-// Export the Portfolio model
-const PortfolioItem = mongoose.model<Document & any>('PortfolioItem', portfolioSchema);
-
-export default PortfolioItem;
+export default Portfolio;
 
