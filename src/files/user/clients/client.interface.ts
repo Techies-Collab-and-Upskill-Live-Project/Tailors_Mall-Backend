@@ -17,6 +17,7 @@ export interface IClient extends IUser {
   image?:string
   role?: string
   isDeleted: boolean
+  userType?: String
   createdAt?: Date
   updatedAt?: Date
 }
