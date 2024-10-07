@@ -26,6 +26,7 @@ export interface IDesigner extends IUser {
   isDeleted: boolean
   socialMediaHandles?: ISocialMediaHandles
   applications?: mongoose.Types.ObjectId[]
+  userType?: String
   createdAt?: Date
   updatedAt?: Date
 }
