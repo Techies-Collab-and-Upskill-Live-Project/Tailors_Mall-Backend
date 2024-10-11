@@ -11,19 +11,20 @@ import DesignerRoute from "../files/user/designer/designer.route";
 import passportConfig from "../utils/passportConfig";
 import designer from "../files/user/designer/designer.model";
 import client from "../files/user/clients/client.model";
+import { swaggerDocs, swaggerUi } from "../files/docs/swagger"; // Adjust the import path if necessary
 
 export const app = express();
 
 export const application = async () => {
-  app.use(express.json())
-  app.use(express.urlencoded({ extended: false }))
-  app.use(helmet())
-  app.use(compression())
-  app.use(cors())
-  app.use(express.static("public"))
-  app.use("/images", express.static("images"))
+  app.use(express.json());
+  app.use(express.urlencoded({ extended: false }));
+  app.use(helmet());
+  app.use(compression());
+  app.use(cors());
+  app.use(express.static("public"));
+  app.use("/images", express.static("images"));
 
-  app.set('view engine','ejs');
+  app.set('view engine', 'ejs');
 
   // Route for Client Authentication
   app.use('/auth/client', ClientRoute);
@@ -32,10 +33,10 @@ export const application = async () => {
   app.use('/auth/designer', DesignerRoute);
 
   app.use(
-    session({ 
-      secret: 'I am Batman', 
-      resave: false, 
-      saveUninitialized: true 
+    session({
+      secret: 'I am Batman',
+      resave: false,
+      saveUninitialized: true
     })
   );
 
@@ -43,19 +44,23 @@ export const application = async () => {
   app.use(passport.initialize());
   app.use(passport.session());
 
+  // Swagger setup
+  app.use('/api-docs', swaggerUi.serve, swaggerUi.setup(swaggerDocs));
+
   app.get("/home", (req, res) => {
-    res.status(200).json({ message: "App working fine. Welcome" })
-  })
+    res.status(200).json({ message: "App working fine. Welcome" });
+  });
 
   app.get("/", (req, res) => {
     res.render("login");
-  })
+  });
 
-  app.get("/log", (req,res)=>{
-    res.render('index',{userinfo:req.user})
-  })
+  app.get("/log", (req, res) => {
+    res.render('index', { userinfo: req.user });
+  });
 
-  routes(app)
-  app.use(handleApplicationErrors) //application errors handler
-  app.use(notFound) //not found route
-}
+  routes(app);
+  app.use(handleApplicationErrors); // application errors handler
+  app.use(notFound); // not found route
+};
+
