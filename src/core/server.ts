@@ -13,5 +13,7 @@ export const startServer = async () => {
 
   app.listen(PORT,() => {
     console.log(`Application running on port ${PORT}`)
+    console.log(`API Documentation available at: http://localhost:${PORT}/api-docs`);
+
   })
 }
