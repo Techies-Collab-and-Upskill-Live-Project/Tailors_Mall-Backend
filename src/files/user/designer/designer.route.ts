@@ -63,11 +63,50 @@ DesignerRoute.post(
   designerSignupController,
 )
 
+/**
+ * @swagger
+ * /designer/login:
+ *   post:
+ *     summary: Designer login
+ *     description: Authenticates a designer and returns a JWT token.
+ *     tags:
+ *       - Designer Authentication
+ *     requestBody:
+ *       required: true
+ *       content:
+ *         application/json:
+ *           schema:
+ *             type: object
+ *             properties:
+ *               email:
+ *                 type: string
+ *                 example: designer@example.com
+ *               password:
+ *                 type: string
+ *                 example: yourpassword123
+ *     responses:
+ *       200:
+ *         description: Successfully authenticated and returned token.
+ *         content:
+ *           application/json:
+ *             schema:
+ *               type: object
+ *               properties:
+ *                 token:
+ *                   type: string
+ *                   example: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...
+ *       400:
+ *         description: Invalid email or password.
+ *       500:
+ *         description: Internal server error.
+ *         security: []  # Disables authentication for this specific endpoint
+ */
 DesignerRoute.post(
   "/login",
   validate(checkSchema(loginAdminValidation)),
   designerLoginController
-)
+);
+
 
 DesignerRoute.post("/send-otp", sendOTP)
 DesignerRoute.post("/verify/otp", verifyOTP)
