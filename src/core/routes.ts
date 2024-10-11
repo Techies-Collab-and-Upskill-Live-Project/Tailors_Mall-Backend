@@ -18,5 +18,5 @@ export const routes = (app: Application) => {
   app.use(`${base}/designer`, DesignerRoute)
   app.use(`${base}/category`, CategoryRouter)
   app.use(`${base}/job`, JobRouter)
-  app.use(`${base}/portfolio`, JobRouter)
+  app.use(`${base}/portfolio`, portfolioRouter)
 }

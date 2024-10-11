@@ -1,9 +1,8 @@
-// src/files/portfolio/portfolio.model.ts
 import mongoose, { Schema } from 'mongoose';
 import { IPortfolio } from './portfolio.interface'; // Import the IPortfolio interface
 
 // Define the Portfolio schema
-const PortfolioSchema: Schema = new Schema<IPortfolio>({
+const PortfolioSchema: Schema<IPortfolio> = new Schema<IPortfolio>({
     name: {
         type: String,
         required: true,
