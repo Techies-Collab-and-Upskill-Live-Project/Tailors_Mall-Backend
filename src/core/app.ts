@@ -11,8 +11,14 @@ import DesignerRoute from "../files/user/designer/designer.route";
 import passportConfig from "../utils/passportConfig";
 import designer from "../files/user/designer/designer.model";
 import client from "../files/user/clients/client.model";
+import http from 'http'; // Import http module
+import { Server as SocketIOServer } from "socket.io";
 
 export const app = express();
+
+// Create the HTTP server and integrate with Socket.io
+const server = http.createServer(app);
+const io = new SocketIOServer(server);
 
 export const application = async () => {
   app.use(express.json())
@@ -58,4 +64,41 @@ export const application = async () => {
   routes(app)
   app.use(handleApplicationErrors) //application errors handler
   app.use(notFound) //not found route
+
+  // Socket.io setup
+io.on('connection', (socket) => {
+  console.log('A user connected:', socket.id);
+
+  // Join private chat
+  socket.on('join_private_chat', ({ userId1, userId2 }) => {
+    const roomName = [userId1, userId2].sort().join('-');
+    socket.join(roomName);
+  });
+
+  // Private messaging
+  socket.on('private_message', ({ userId1, userId2, message }) => {
+    const roomName = [userId1, userId2].sort().join('-');
+    io.to(roomName).emit('private_message', { userId: userId1, message });
+  });
+
+  // Join community
+  socket.on('join_community', (communityId) => {
+    socket.join(`community_${communityId}`);
+    io.to(`community_${communityId}`).emit('user_joined', socket.id);
+  });
+
+  // Community messaging
+  socket.on('community_message', ({ communityId, userId, message }) => {
+    io.to(`community_${communityId}`).emit('community_message', { userId, message });
+  });
+
+  // Leave community
+  socket.on('leave_community', (communityId) => {
+    socket.leave(`community_${communityId}`);
+  });
+
+  socket.on('disconnect', () => {
+    console.log('User disconnected:', socket.id);
+  });
+});
 }
