@@ -66,39 +66,39 @@ export const application = async () => {
   app.use(notFound) //not found route
 
   // Socket.io setup
-io.on('connection', (socket) => {
-  console.log('A user connected:', socket.id);
+  io.on('connection', (socket) => {
+    console.log('A user connected:', socket.id);
 
-  // Join private chat
-  socket.on('join_private_chat', ({ userId1, userId2 }) => {
-    const roomName = [userId1, userId2].sort().join('-');
-    socket.join(roomName);
-  });
+    // Join private chat
+    socket.on('join_private_chat', ({ userId1, userId2 }) => {
+      const roomName = [userId1, userId2].sort().join('-');
+      socket.join(roomName);
+    });
 
-  // Private messaging
-  socket.on('private_message', ({ userId1, userId2, message }) => {
-    const roomName = [userId1, userId2].sort().join('-');
-    io.to(roomName).emit('private_message', { userId: userId1, message });
-  });
+    // Private messaging
+    socket.on('private_message', ({ userId1, userId2, message }) => {
+      const roomName = [userId1, userId2].sort().join('-');
+      io.to(roomName).emit('private_message', { userId: userId1, message });
+    });
 
-  // Join community
-  socket.on('join_community', (communityId) => {
-    socket.join(`community_${communityId}`);
-    io.to(`community_${communityId}`).emit('user_joined', socket.id);
-  });
+    // Join community
+    socket.on('join_community', (communityId) => {
+      socket.join(`community_${communityId}`);
+      io.to(`community_${communityId}`).emit('user_joined', socket.id);
+    });
 
-  // Community messaging
-  socket.on('community_message', ({ communityId, userId, message }) => {
-    io.to(`community_${communityId}`).emit('community_message', { userId, message });
-  });
+    // Community messaging
+    socket.on('community_message', ({ communityId, userId, message }) => {
+      io.to(`community_${communityId}`).emit('community_message', { userId, message });
+    });
 
-  // Leave community
-  socket.on('leave_community', (communityId) => {
-    socket.leave(`community_${communityId}`);
-  });
+    // Leave community
+    socket.on('leave_community', (communityId) => {
+      socket.leave(`community_${communityId}`);
+    });
 
-  socket.on('disconnect', () => {
-    console.log('User disconnected:', socket.id);
+    socket.on('disconnect', () => {
+      console.log('User disconnected:', socket.id);
+    });
   });
-});
 }
