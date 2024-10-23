@@ -2,10 +2,11 @@ import { Application } from "express";
 import AdminRouter from "../files/admin/admin.route";
 import AuthRouter from "../files/auth/auth.route";
 import ClientRoute from "../files/user/clients/client.route";
-import DesignerRoute from "../files/user/designer/designer.route";
+import DesignerRoute from "../files/user/designer/designer.routes";
 import UserRouter from "../files/user/general/general.route";
 import CategoryRouter from "../files/category/category.routes";
 import JobRouter from "../files/job/job.routes";
+import PortfolioRouter from "../files/portfolio/portfolio.routes";
 
 // Routes goes here
 export const routes = (app: Application) => {
@@ -18,4 +19,5 @@ export const routes = (app: Application) => {
   app.use(`${base}/designer`, DesignerRoute)
   app.use(`${base}/category`, CategoryRouter)
   app.use(`${base}/job`, JobRouter)
+  app.use(`${base}/portfolio`, PortfolioRouter)
 }

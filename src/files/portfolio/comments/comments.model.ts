@@ -1,5 +1,5 @@
 import mongoose, { Schema } from 'mongoose';
-import { IComment } from './comment.interface'; // Import your interface if you have one
+import { IComment } from './comments.interface';
 
 // Define the Comment schema
 const CommentSchema: Schema<IComment> = new Schema<IComment>({

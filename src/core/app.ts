@@ -7,7 +7,7 @@ import { handleApplicationErrors, notFound } from "./response";
 import passport from 'passport';
 import session from 'express-session';
 import ClientRoute from "../files/user/clients/client.route";
-import DesignerRoute from "../files/user/designer/designer.route";
+import DesignerRoute from "../files/user/designer/designer.routes";
 import passportConfig from "../utils/passportConfig";
 import designer from "../files/user/designer/designer.model";
 import client from "../files/user/clients/client.model";

@@ -14,19 +14,23 @@ const uploadManager = (destination: string) => {
     storage: new CloudinaryStorage({
       cloudinary: cloudinary,
       params: {
-        folder: `Zillight/${destination}`,
+        folder: `Tailora/${destination}`,
+        resource_type: "auto",
       },
     }),
     fileFilter,
-  })
+  });
 }
 
 function fileFilter(req: Request, file: any, cb: any) {
-  if (req.get("Authorization") !== undefined) {
-    cb(null, true)
+  const allowedTypes = ["image/jpeg", "image/png", "video/mp4", "video/mov"];
+  
+  if (allowedTypes.includes(file.mimetype) && req.get("Authorization") !== undefined) {
+    cb(null, true);  // Accept the file if it's an image or video
   } else {
-    cb(null, true)
+    cb(new Error("Invalid file type. Only images and videos are allowed."), false);
   }
 }
+
 
 export default uploadManager

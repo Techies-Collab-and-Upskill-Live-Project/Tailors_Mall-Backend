@@ -173,6 +173,59 @@ const fileModifier = (req: any) => {
   return formBody
 }
 
+const fileModifierIncludesVideo = (req: any) => {
+  let { body, files, params } = req;
+
+  let mediaUrls = {
+    images: [] as string[],
+    videos: [] as string[],
+    coverImage: '' as string,
+  };
+
+  let formBody = {} as { [key: string]: any };
+
+  if (files) {
+    const { images, videos, coverImage } = files;
+
+    // Handle images
+    if (images) {
+      for (let image of images) {
+        const { path } = image;
+        mediaUrls.images.push(path);
+      }
+    }
+
+    // Handle videos
+    if (videos) {
+      for (let video of videos) {
+        const { path } = video;
+        mediaUrls.videos.push(path);
+      }
+    }
+
+    // Handle coverImage
+    if (coverImage) {
+      mediaUrls.coverImage = coverImage[0].path;
+    }
+
+    // Construct the final form body
+    formBody = {
+      ...body,
+      params,
+      images: mediaUrls.images,
+      videos: mediaUrls.videos,
+      coverImage: mediaUrls.coverImage,
+    };
+  } else {
+    // If there are no files, keep the formBody with empty media arrays
+    formBody = { ...body, params, images: [], videos: [], coverImage: [] };
+  }
+
+  return formBody;
+};
+
+
+
 const hashPassword = async (password: string): Promise<string> => {
   const salt = await bcrypt.genSalt(10)
   return bcrypt.hash(password, salt)
@@ -274,4 +327,5 @@ export {
   manageAsyncOps,
   trimObjectSpaces,
   verifyWhoAmI,
+  fileModifierIncludesVideo,
 }
