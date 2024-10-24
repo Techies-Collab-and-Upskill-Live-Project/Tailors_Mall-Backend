@@ -11,6 +11,7 @@ export interface IPortfolio {
     images: string[];
     videos?: string[];
     photoGrid?: boolean;
+    draft?: boolean;
     embedLink?: string;
     coverImage: string;
     designerId: ObjectId; // Reference to the designer

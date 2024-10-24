@@ -32,7 +32,6 @@ export class PortfolioService {
     if (error) return { success: false, msg: error }
 
     const portfolio = await PortfolioRepository.fetchPortfolioByParams({
-      designerId: userId,
       ...params,
       limit,
       skip,
