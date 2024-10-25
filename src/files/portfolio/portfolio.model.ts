@@ -33,12 +33,16 @@ const PortfolioSchema = new Schema<IPortfolio>({
 		type: Boolean,
 		default: false,
 	},
+	draft: {
+		type: Boolean,
+		default: false,
+	},
 	embedLink: {
 		type: String,
 	},
 	coverImage: {
 		type: String,
-		// required: true,
+		required: true,
 	},
 	designerId: {
 		type: mongoose.Schema.Types.ObjectId,
