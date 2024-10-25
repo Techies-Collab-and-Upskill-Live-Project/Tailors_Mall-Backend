@@ -13,6 +13,9 @@ import designer from "../files/user/designer/designer.model";
 import client from "../files/user/clients/client.model";
 import http from 'http'; // Import http module
 import { Server as SocketIOServer } from "socket.io";
+// import swaggerJsDocs from "swagger-jsdoc"
+import swaggerUi from "swagger-ui-express"
+import swaggerJSON from "../openapi.json"
 
 export const app = express();
 
@@ -28,6 +31,10 @@ export const application = async () => {
   app.use(cors())
   app.use(express.static("public"))
   app.use("/images", express.static("images"))
+
+  // const docs = swaggerJsDocs(swaggerJSON)
+
+  app.use("/api-docs", swaggerUi.serve, swaggerUi.setup(swaggerJSON))
 
   app.set('view engine','ejs');
 
