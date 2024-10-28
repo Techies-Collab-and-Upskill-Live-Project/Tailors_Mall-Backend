@@ -5,6 +5,7 @@ export interface IUser extends Partial<IUserExt> {
   fullName: string
   bio?: string
   website?: string
+  userType?: string
   phoneNumber: string
   isDeleted: boolean
   createdAt?: Date
@@ -20,7 +21,7 @@ interface IUserExt {
 }
 
 export interface IUserLogin 
-  extends Pick<IUser, "_id" | "email" | "password" | "isDeleted"> {}
+  extends Pick<IUser, "_id" | "email" | "password" | "isDeleted" | "userType"> {}
 
 export interface IUserResetPasswordPayload {
   email: string

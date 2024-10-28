@@ -23,6 +23,7 @@ export interface IDesigner extends IUser {
   description?: string
   image?:string
   role?: string
+  userType?: string 
   isDeleted: boolean
   socialMediaHandles?: ISocialMediaHandles
   applications?: mongoose.Types.ObjectId[]

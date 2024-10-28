@@ -39,6 +39,10 @@ const ClientSchema = new Schema<IClient>(
       type: String,
       // required: true,
     },
+    userType: {
+      type: String,
+      default: "Client"
+    },
     location: {
       type: String,
       // required: true,

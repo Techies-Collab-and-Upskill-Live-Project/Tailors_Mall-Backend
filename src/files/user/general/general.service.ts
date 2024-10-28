@@ -25,7 +25,7 @@ export default class AuthService {
     password = await hashPassword(password);
     const signIn = await Repository.createUser(model, { ...payload, password });
 
-    const token = tokenHandler({ _id: signIn._id, email: payload.email, userType: "client" });
+    const token = tokenHandler({ _id: signIn?._id, email: payload?.email, userType: signIn?.userType });
 
     const substitutional_parameters = {
       name: payload.fullName,
@@ -59,7 +59,7 @@ export default class AuthService {
 
     if (!passwordCheck) return { success: false, msg: userMessages.LOGIN_ERROR };
 
-    const token = tokenHandler({ _id, email, userType: "user" });
+    const token = tokenHandler({ _id, email, userType: user?.userType });
 
     return {
       success: true,
