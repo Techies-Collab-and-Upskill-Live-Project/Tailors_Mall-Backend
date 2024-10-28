@@ -24,8 +24,6 @@ export default class AuthService {
     let { password } = payload;
     password = await hashPassword(password);
     const signIn = await Repository.createUser(model, { ...payload, password });
-    console.log("userType", signIn?.userType)
-    console.log("userType", signIn)
 
     const token = tokenHandler({ _id: signIn?._id, email: payload?.email, userType: signIn?.userType });
 
@@ -60,9 +58,7 @@ export default class AuthService {
     const passwordCheck = await verifyPassword(password, hashedPassword);
 
     if (!passwordCheck) return { success: false, msg: userMessages.LOGIN_ERROR };
-    console.log("user", user)
 
-    console.log("here")
     const token = tokenHandler({ _id, email, userType: user?.userType });
 
     return {
