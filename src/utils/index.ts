@@ -40,8 +40,10 @@ const messageHandler = (
 }
 
 const tokenHandler = (data: { [key: string]: any }) => {
-  var { _id, email, isAdmin = false, ...restOfPayload } = data
-
+  console.log("data", data)
+  var { _id, email, isAdmin = false, userType, ...restOfPayload } = data
+  
+  console.log("restOfPayload", restOfPayload)
   const token = sign(
     {
       _id,
@@ -52,7 +54,7 @@ const tokenHandler = (data: { [key: string]: any }) => {
     config.SECRET_KEY!,
     { expiresIn: process.env.TOKEN_EXPIRE_IN },
   )
-  return { token, _id, email, isAdmin }
+  return { token, _id, email, userType, isAdmin }
 }
 
 const isAuthenticated = async (req: any, res: Response, next: NextFunction) => {

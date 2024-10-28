@@ -46,6 +46,10 @@ const DesignerSchema = new Schema<IDesigner>(
     fullName: { 
       type: String 
     },
+    userType: {
+      type: String,
+      default: "Designer"
+    },
     location: { 
       type: String 
     },

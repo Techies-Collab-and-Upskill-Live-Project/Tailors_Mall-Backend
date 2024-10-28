@@ -37,7 +37,7 @@ export default class Repository {
       {
         ...userPayload,
       },
-      { _id: 1, password: 1, email: 1, isDeleted: 1 }
+      { _id: 1, password: 1, email: 1, isDeleted: 1, userType: 1 }
     );
     return user;
   }
