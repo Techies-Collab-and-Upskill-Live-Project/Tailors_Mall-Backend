@@ -87,10 +87,6 @@ const DesignerSchema = new Schema<IDesigner>(
       type: mongoose.Schema.Types.ObjectId,
       ref: "JobApplication",
     }],
-    userType: {
-      type: String,
-      default: "Designer"
-    },
   },
   { timestamps: true },
 );
