@@ -58,10 +58,6 @@ const ClientSchema = new Schema<IClient>(
       type: Boolean,
       default: false,
     },
-    userType: {
-      type: String,
-      default: "Designer"
-    },
   },
   { timestamps: true },
 )
