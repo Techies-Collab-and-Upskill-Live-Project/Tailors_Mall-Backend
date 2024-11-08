@@ -7,45 +7,51 @@ import Portfolio from "./portfolio.model";
 
 export class PortfolioService {
   static async createPortfolio(portfolioPayload: IPortfolio, user: any) {
+    // Assign designerId and ensure content is properly set
     const portfolio = await PortfolioRepository.createPortfolio({
       ...portfolioPayload,
       designerId: user,
     });
 
-    if (!portfolio)
-      return { success: false, msg: portfolioMessage.REQUEST_FAILURE }
+    if (!portfolio) {
+      return { success: false, msg: portfolioMessage.REQUEST_FAILURE };
+    }
 
     return {
       success: true,
       msg: portfolioMessage.REQUEST_SUCCESS,
       data: portfolio,
-    }
+    };
   }
 
-  static async fetchPortfolioService(portfolioPayload: Partial<IPortfolio>, userId: any) {
+  static async fetchPortfolioService(
+    portfolioPayload: Partial<IPortfolio>,
+    userId: any,
+  ) {
     const { error, params, limit, skip, sort } = queryConstructor(
       portfolioPayload,
       "createdAt",
       "Portfolio",
-    )
+    );
 
-    if (error) return { success: false, msg: error }
+    if (error) return { success: false, msg: error };
 
     const portfolio = await PortfolioRepository.fetchPortfolioByParams({
       ...params,
       limit,
       skip,
       sort,
-    })
+    });
 
-    if (portfolio.length < 1)
-      return { success: false, msg: portfolioMessage.FETCH_ERROR, data: [] }
+    if (portfolio.length < 1) {
+      return { success: false, msg: portfolioMessage.FETCH_ERROR, data: [] };
+    }
 
     return {
       success: true,
       msg: portfolioMessage.FETCH_SUCCESS,
       data: portfolio,
-    }
+    };
   }
 
   static async updatePortfolio(
@@ -56,38 +62,45 @@ export class PortfolioService {
     const portfolio = await PortfolioRepository.updatePortfolioDetails(
       { _id: new mongoose.Types.ObjectId(portfolioId), designerId: userId, isDelete: false },
       { $set: { ...portfolioPayload } },
-    )
+    );
 
-    if (!portfolio) return { success: false, msg: portfolioMessage.UPDATE_ERROR }
+    if (!portfolio) {
+      return { success: false, msg: portfolioMessage.UPDATE_ERROR };
+    }
 
     return {
       success: true,
       msg: portfolioMessage.UPDATE_SUCCESS,
       portfolio,
-    }
+    };
   }
 
-  static async deletePortfolio(portfolioPayload: any) {
+  static async deletePortfolio(portfolioId: any) {
     const portfolio = await PortfolioRepository.updatePortfolioDetails(
-      { _id: new mongoose.Types.ObjectId(portfolioPayload) },
+      { _id: new mongoose.Types.ObjectId(portfolioId) },
       { isDelete: true },
-    )
-    if (!portfolio) return { success: false, msg: portfolioMessage.DELETE_ERROR }
+    );
+
+    if (!portfolio) {
+      return { success: false, msg: portfolioMessage.DELETE_ERROR };
+    }
 
     return {
       success: true,
       msg: portfolioMessage.DELETE,
-    }
+    };
   }
 
   // Like/Unlike a portfolio project
   static async toggleLikePortfolio(params: any, userId: any) {
-    const { portfolioId } = params; 
-    
+    const { portfolioId } = params;
+
     // Find the portfolio by ID
     const portfolio = await Portfolio.findById({ _id: portfolioId });
 
-    if (!portfolio) return { success: false, msg: portfolioMessage.FETCH_ERROR };
+    if (!portfolio) {
+      return { success: false, msg: portfolioMessage.FETCH_ERROR };
+    }
 
     // Check if the user has already liked the portfolio
     const isLiked = portfolio.likes!.includes(userId);
@@ -100,7 +113,7 @@ export class PortfolioService {
       return {
         success: true,
         msg: portfolioMessage.UN_LIKED,
-      }
+      };
     } else {
       // Like the portfolio (add user ID to likes array)
       portfolio.likes!.push(userId);
@@ -109,7 +122,8 @@ export class PortfolioService {
       return {
         success: true,
         msg: portfolioMessage.LIKED,
-      }
+      };
     }
-  };
+  }
 }
+

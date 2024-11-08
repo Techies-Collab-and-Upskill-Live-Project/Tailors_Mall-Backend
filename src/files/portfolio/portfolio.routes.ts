@@ -16,31 +16,36 @@ const {
   toggleLikePortfolio,
 } = portfolioController;
 
-PortfolioRouter.use(isAuthenticated)
-//routes
+// Protect routes with authentication middleware
+PortfolioRouter.use(isAuthenticated);
+
+// Routes
 PortfolioRouter.post(
   "/",
-  // validate(checkSchema(createPortfolioValidation)),
+  validate(checkSchema(createPortfolioValidation)),
   uploadManager("Portfolio").fields([
     { name: "images", maxCount: 5 },
     { name: "videos", maxCount: 5 },
-    { name: "coverImage", maxCount: 1 }
+    { name: "coverImage", maxCount: 1 },
   ]),
-  createPortfolioController,
-)
-PortfolioRouter.get(
-  "/", getPortfolioController
-)
+  createPortfolioController
+);
+
+PortfolioRouter.get("/", getPortfolioController);
+
 PortfolioRouter.put(
-  "/update/:id", 
+  "/update/:id",
   uploadManager("Portfolio").fields([
     { name: "images", maxCount: 5 },
     { name: "videos", maxCount: 5 },
-    { name: "coverImage", maxCount: 1 }
+    { name: "coverImage", maxCount: 1 },
   ]),
   updatePortfolioController
-)
-PortfolioRouter.delete("/delete/:id", deletePortfolioController)
-PortfolioRouter.post("/like/:portfolioId", toggleLikePortfolio)
+);
 
-export default PortfolioRouter
+PortfolioRouter.delete("/delete/:id", deletePortfolioController);
+
+PortfolioRouter.post("/like/:portfolioId", toggleLikePortfolio);
+
+export default PortfolioRouter;
+

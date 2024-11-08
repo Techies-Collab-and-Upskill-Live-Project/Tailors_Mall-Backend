@@ -1,12 +1,12 @@
-import pagination, { IPagination } from "../../constants"
-import { IPortfolio } from "./portfolio.interface"
-import Portfolio from "./portfolio.model"
+import pagination, { IPagination } from "../../constants";
+import { IPortfolio } from "./portfolio.interface";
+import Portfolio from "./portfolio.model";
 
-const { LIMIT, SKIP, SORT } = pagination
+const { LIMIT, SKIP, SORT } = pagination;
 
 export default class PortfolioRepository {
   static async createPortfolio(portfolioPayload: IPortfolio): Promise<IPortfolio> {
-    return Portfolio.create(portfolioPayload)
+    return Portfolio.create(portfolioPayload);
   }
 
   static async fetchPortfolio(
@@ -19,9 +19,9 @@ export default class PortfolioRepository {
         isDelete: false,
       },
       select,
-    )
+    );
 
-    return portfolio
+    return portfolio;
   }
 
   static async fetchPortfolioByParams(
@@ -32,7 +32,7 @@ export default class PortfolioRepository {
       skip = SKIP,
       sort = SORT,
       ...restOfPayload
-    } = portfolioPayload
+    } = portfolioPayload;
 
     const portfolio: Awaited<IPortfolio[] | null> = await Portfolio.find({
       ...restOfPayload,
@@ -40,27 +40,28 @@ export default class PortfolioRepository {
     })
       .sort(sort)
       .skip(skip)
-      .limit(limit)
+      .limit(limit);
 
-    return portfolio
+    return portfolio;
   }
 
   static async updatePortfolioDetails(
     portfolioPayload: Partial<IPortfolio>,
     update:
       | Partial<IPortfolio>
-      | { $push?: Record<any, any>; $set?: Record<any, any> }
+      | { $push?: Record<string, any>; $set?: Record<string, any> }
       | { $set: Partial<IPortfolio> },
-      arrayFilters?: any[] | undefined
+    arrayFilters?: any[] | undefined
   ) {
     const updatePortfolio = await Portfolio.findOneAndUpdate(
       {
         ...portfolioPayload,
       },
-      { ...update },
-      { new: true, runValidators: true, arrayFilters }, //returns details about the update
-    )
+      update,
+      { new: true, runValidators: true, arrayFilters }, // Returns updated document
+    );
 
-    return updatePortfolio
+    return updatePortfolio;
   }
 }
+
